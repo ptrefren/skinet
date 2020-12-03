@@ -1,3 +1,5 @@
+using API.Helpers;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +25,8 @@ namespace API
         {
 
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -45,6 +49,8 @@ namespace API
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
